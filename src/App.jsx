@@ -14,7 +14,6 @@ import {
     FaBars,
     FaTimes,
     FaHeart,
-    FaSmile,
     FaHandHoldingHeart,
     FaChevronLeft,
     FaChevronRight,
@@ -37,7 +36,15 @@ const App = () => {
         typeof window !== "undefined" ? window.innerWidth : 0,
     );
     const [currentServiceSlide, setCurrentServiceSlide] = useState(0);
+    const [selectedCategory, setSelectedCategory] = useState("Todos");
+    const [activeImageId, setActiveImageId] = useState(null);
 
+    const phone = "5511999999999";
+    const email = "contato@iveseventos.com";
+    const instagram = "https://www.instagram.com/iveseventos/";
+    const facebook = "https://www.facebook.com/iveseventos";
+
+    // Funções de navegação do carrossel de serviços
     const nextServiceSlide = () => {
         setCurrentServiceSlide((prev) => (prev + 1) % 4);
     };
@@ -92,7 +99,13 @@ const App = () => {
         },
     ];
 
-    // Detectar largura da tela para responsividade do carrossel
+    // Filtrar imagens por categoria
+    const filteredImages =
+        selectedCategory === "Todos"
+            ? galleryImages
+            : galleryImages.filter((img) => img.category === selectedCategory);
+
+    // Detectar largura da tela para responsividade
     useEffect(() => {
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
@@ -101,6 +114,33 @@ const App = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    // Fechar overlay ao clicar fora no mobile
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (windowWidth < 640) {
+                // Verifica se o clique foi fora de alguma imagem com overlay ativo
+                const galleryItems = document.querySelectorAll(".group");
+                let clickedInside = false;
+
+                galleryItems.forEach((item) => {
+                    if (item.contains(e.target)) {
+                        clickedInside = true;
+                    }
+                });
+
+                if (!clickedInside) {
+                    setActiveImageId(null);
+                }
+            }
+        };
+
+        if (windowWidth < 640) {
+            document.addEventListener("click", handleClickOutside);
+            return () =>
+                document.removeEventListener("click", handleClickOutside);
+        }
+    }, [windowWidth]);
 
     // Calcular número de imagens por slide baseado na largura da tela
     const getImagesPerSlide = () => {
@@ -122,9 +162,6 @@ const App = () => {
 
     // SEO optimization
     useEffect(() => {
-        document.title =
-            "Ives Eventos - Assessoria de Eventos | Casamentos & 15 Anos";
-
         const metaDescription = document.querySelector(
             'meta[name="description"]',
         );
@@ -170,7 +207,7 @@ const App = () => {
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
-            const offset = 80; // altura do header
+            const offset = 80;
             const elementPosition = element.offsetTop - offset;
             window.scrollTo({
                 top: elementPosition,
@@ -182,9 +219,8 @@ const App = () => {
 
     // Funções para WhatsApp com mensagens personalizadas
     const openWhatsApp = (message) => {
-        const phoneNumber = "5511999999999"; // Substitua pelo número real
         const encodedMessage = encodeURIComponent(message);
-        const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        const url = `https://wa.me/${phone}?text=${encodedMessage}`;
         window.open(url, "_blank");
     };
 
@@ -233,7 +269,7 @@ const App = () => {
                             </span>
                         </div>
 
-                        {/* Desktop Menu - Hidden on mobile */}
+                        {/* Desktop Menu */}
                         <div className="hidden md:flex space-x-6 lg:space-x-12">
                             {[
                                 { id: "home", label: "Início" },
@@ -344,7 +380,7 @@ const App = () => {
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-4 sm:mb-6 block flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
+                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-4 sm:mb-6 flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
                             <FaHandHoldingHeart className="text-rose-400 text-sm sm:text-base" />
                             <span>Ives Eventos</span>
                             <FaHandHoldingHeart className="text-rose-400 text-sm sm:text-base" />
@@ -402,7 +438,7 @@ const App = () => {
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 md:mb-16 lg:mb-20">
-                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 block flex items-center justify-center gap-1 sm:gap-2">
+                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center justify-center gap-1 sm:gap-2">
                             <BiUser className="text-sm sm:text-base" />
                             <span>Serviços</span>
                             <BiUser className="text-sm sm:text-base" />
@@ -507,7 +543,7 @@ const App = () => {
                                     }}
                                 >
                                     {/* Card Casamento */}
-                                    <div className="w-full flex-shrink-0 px-2">
+                                    <div className="w-full shrink-0 px-2">
                                         <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
                                             <div className="flex flex-col items-center text-center">
                                                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
@@ -550,7 +586,7 @@ const App = () => {
                                     </div>
 
                                     {/* Card 15 Anos */}
-                                    <div className="w-full flex-shrink-0 px-2">
+                                    <div className="w-full shrink-0 px-2">
                                         <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
                                             <div className="flex flex-col items-center text-center">
                                                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
@@ -592,7 +628,7 @@ const App = () => {
                                     </div>
 
                                     {/* Card Eventos Corporativos */}
-                                    <div className="w-full flex-shrink-0 px-2">
+                                    <div className="w-full shrink-0 px-2">
                                         <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
                                             <div className="flex flex-col items-center text-center">
                                                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
@@ -636,7 +672,7 @@ const App = () => {
                                     </div>
 
                                     {/* Card Aniversário */}
-                                    <div className="w-full flex-shrink-0 px-2">
+                                    <div className="w-full shrink-0 px-2">
                                         <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
                                             <div className="flex flex-col items-center text-center">
                                                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
@@ -731,14 +767,14 @@ const App = () => {
                 </div>
             </section>
 
-            {/* Gallery Section - Carousel */}
+            {/* Gallery Section - Com Filtros por Categoria */}
             <section
                 id="gallery"
                 className="py-16 sm:py-20 md:py-24 lg:py-32 bg-rose-50/30"
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-12">
-                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 block flex items-center justify-center gap-1 sm:gap-2">
+                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center justify-center gap-1 sm:gap-2">
                             <FaCamera className="text-sm sm:text-base" />
                             <span>Galeria</span>
                             <FaCamera className="text-sm sm:text-base" />
@@ -750,171 +786,212 @@ const App = () => {
                             </span>
                         </h2>
                         <p className="text-sm sm:text-base text-gray-600 leading-relaxed px-4">
-                            Cada foto representa um sonho realizado com muito
-                            carinho e dedicação
+                            Explore nossos eventos organizados por categoria
                         </p>
                     </div>
 
-                    {/* Carousel */}
-                    <div className="relative max-w-6xl mx-auto">
-                        {/* Main Carousel */}
-                        <div className="overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-3xl">
+                    {/* Filtros por Categoria */}
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 lg:mb-12">
+                        {[
+                            "Todos",
+                            "Casamento",
+                            "Debutante",
+                            "Formatura",
+                            "Evento Especial",
+                        ].map((categoria) => (
+                            <button
+                                key={categoria}
+                                onClick={() => {
+                                    setSelectedCategory(categoria);
+                                    setActiveImageId(null);
+                                }}
+                                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
+                                    selectedCategory === categoria
+                                        ? "bg-rose-500 text-white shadow-lg shadow-rose-200"
+                                        : "bg-white text-gray-600 hover:bg-rose-100 hover:text-rose-600 border border-rose-200"
+                                }`}
+                            >
+                                {categoria}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Grid de Fotos por Categoria */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
+                        {filteredImages.map((image) => (
                             <div
-                                className="flex transition-transform duration-500 ease-out"
-                                style={{
-                                    transform: `translateX(-${currentSlide * 100}%)`,
+                                key={image.id}
+                                className={`group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg transition-all duration-500 ${
+                                    windowWidth < 640
+                                        ? activeImageId === image.id
+                                            ? "scale-[1.02] shadow-2xl"
+                                            : ""
+                                        : "hover:shadow-2xl hover:-translate-y-2"
+                                }`}
+                                onClick={() => {
+                                    if (windowWidth < 640) {
+                                        setActiveImageId(
+                                            activeImageId === image.id
+                                                ? null
+                                                : image.id,
+                                        );
+                                    }
                                 }}
                             >
-                                {Array.from({ length: totalSlides }).map(
-                                    (_, slideIndex) => (
-                                        <div
-                                            key={slideIndex}
-                                            className="w-full flex-shrink-0"
-                                        >
-                                            <div
-                                                className={`grid gap-3 sm:gap-4 lg:gap-6 p-1 sm:p-2 ${
-                                                    imagesPerSlide === 1
-                                                        ? "grid-cols-1"
-                                                        : imagesPerSlide === 2
-                                                          ? "grid-cols-2"
-                                                          : "grid-cols-3"
-                                                }`}
-                                            >
-                                                {galleryImages
-                                                    .slice(
-                                                        slideIndex *
-                                                            imagesPerSlide,
-                                                        slideIndex *
-                                                            imagesPerSlide +
-                                                            imagesPerSlide,
-                                                    )
-                                                    .map((image) => (
-                                                        <div
-                                                            key={image.id}
-                                                            className="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
-                                                        >
-                                                            <div className="aspect-[3/4] sm:aspect-[4/5] overflow-hidden">
-                                                                <img
-                                                                    src={
-                                                                        image.src
-                                                                    }
-                                                                    alt={
-                                                                        image.title
-                                                                    }
-                                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                                                    loading="lazy"
-                                                                />
-                                                            </div>
-
-                                                            {/* Overlay with info */}
-                                                            <div className="absolute inset-0 bg-linear-to-t from-rose-900/90 via-rose-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                                                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 lg:p-6 text-white">
-                                                                    <span className="text-[10px] sm:text-xs font-light text-rose-200 uppercase tracking-wider">
-                                                                        {
-                                                                            image.category
-                                                                        }
-                                                                    </span>
-                                                                    <h3 className="text-sm sm:text-base lg:text-xl font-semibold mt-1 mb-1 lg:mb-2">
-                                                                        {
-                                                                            image.title
-                                                                        }
-                                                                    </h3>
-                                                                    <p className="text-xs sm:text-sm text-rose-100 hidden sm:block">
-                                                                        {
-                                                                            image.description
-                                                                        }
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Category Tag */}
-                                                            <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-white/90 backdrop-blur-sm px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium text-rose-600 shadow-lg">
-                                                                {image.category}
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                            </div>
-                                        </div>
-                                    ),
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Navigation Buttons - Hidden on mobile, visible on larger screens */}
-                        {totalSlides > 1 && (
-                            <>
-                                <button
-                                    onClick={prevSlide}
-                                    className="hidden sm:flex absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm text-rose-500 w-8 h-8 lg:w-12 lg:h-12 rounded-full shadow-lg hover:bg-rose-500 hover:text-white transition-all duration-300 items-center justify-center z-10 cursor-pointer"
-                                    aria-label="Anterior"
+                                <div
+                                    className={`aspect-3/4 sm:aspect-4/5 overflow-hidden ${
+                                        windowWidth < 640 &&
+                                        activeImageId === image.id
+                                            ? "brightness-50"
+                                            : ""
+                                    }`}
                                 >
-                                    <FaChevronLeft
-                                        size={windowWidth < 1024 ? 16 : 20}
+                                    <img
+                                        src={image.src}
+                                        alt={image.title}
+                                        className={`w-full h-full object-cover transition-all duration-700 ${
+                                            windowWidth < 640
+                                                ? activeImageId === image.id
+                                                    ? "scale-110"
+                                                    : ""
+                                                : "group-hover:scale-110"
+                                        }`}
+                                        loading="lazy"
                                     />
-                                </button>
+                                </div>
 
-                                <button
-                                    onClick={nextSlide}
-                                    className="hidden sm:flex absolute right-2 lg:right-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm text-rose-500 w-8 h-8 lg:w-12 lg:h-12 rounded-full shadow-lg hover:bg-rose-500 hover:text-white transition-all duration-300 items-center justify-center z-10 cursor-pointer"
-                                    aria-label="Próximo"
+                                {/* Overlay com informações */}
+                                <div
+                                    className={`absolute inset-0 bg-linear-to-t from-rose-900/95 via-rose-900/60 to-transparent transition-opacity duration-500 ${
+                                        windowWidth < 640
+                                            ? activeImageId === image.id
+                                                ? "opacity-100"
+                                                : "opacity-0 pointer-events-none"
+                                            : "opacity-0 group-hover:opacity-100"
+                                    }`}
                                 >
-                                    <FaChevronRight
-                                        size={windowWidth < 1024 ? 16 : 20}
-                                    />
-                                </button>
-                            </>
-                        )}
+                                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 lg:p-6 text-white">
+                                        <span className="text-[10px] sm:text-xs font-light text-rose-200 uppercase tracking-wider">
+                                            {image.category}
+                                        </span>
+                                        <h3 className="text-sm sm:text-base lg:text-lg font-semibold mt-1 mb-1">
+                                            {image.title}
+                                        </h3>
+                                        <p className="text-xs sm:text-sm text-rose-100 mb-3">
+                                            {image.description}
+                                        </p>
 
-                        {/* Dots Indicator */}
-                        {totalSlides > 1 && (
-                            <div className="flex justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6 lg:mt-8">
-                                {Array.from({ length: totalSlides }).map(
-                                    (_, index) => (
+                                        {/* Botão para mais informações */}
                                         <button
-                                            key={index}
-                                            onClick={() =>
-                                                setCurrentSlide(index)
-                                            }
-                                            className={`transition-all duration-300 rounded-full cursor-pointer ${
-                                                currentSlide === index
-                                                    ? "w-4 sm:w-6 lg:w-8 h-1.5 sm:h-2 bg-rose-500"
-                                                    : "w-1.5 sm:w-2 h-1.5 sm:h-2 bg-rose-200 hover:bg-rose-300"
-                                            }`}
-                                            aria-label={`Ir para slide ${index + 1}`}
-                                        />
-                                    ),
-                                )}
-                            </div>
-                        )}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                openWhatsApp(
+                                                    `Olá, vi o evento *${image.title}* na galeria e gostaria de mais informações sobre este tipo de evento.`,
+                                                );
+                                            }}
+                                            className="mt-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full hover:bg-white/30 transition-all duration-300 border border-white/30 inline-flex items-center gap-1 cursor-pointer"
+                                        >
+                                            <FaWhatsapp size={12} />
+                                            <span>Mais informações</span>
+                                        </button>
+                                    </div>
+                                </div>
 
-                        {/* Mobile Navigation Arrows */}
-                        {totalSlides > 1 && windowWidth < 640 && (
-                            <div className="flex justify-center gap-4 mt-4">
-                                <button
-                                    onClick={prevSlide}
-                                    className="bg-white/90 backdrop-blur-sm text-rose-500 w-10 h-10 rounded-full shadow-lg hover:bg-rose-500 hover:text-white transition-all duration-300 flex items-center justify-center cursor-pointer"
-                                >
-                                    <FaChevronLeft size={16} />
-                                </button>
-                                <button
-                                    onClick={nextSlide}
-                                    className="bg-white/90 backdrop-blur-sm text-rose-500 w-10 h-10 rounded-full shadow-lg hover:bg-rose-500 hover:text-white transition-all duration-300 flex items-center justify-center cursor-pointer"
-                                >
-                                    <FaChevronRight size={16} />
-                                </button>
-                            </div>
-                        )}
+                                {/* Category Tag */}
+                                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-white/90 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium text-rose-600 shadow-lg flex items-center gap-1 z-10">
+                                    {image.category === "Casamento" && (
+                                        <MdEvent size={12} />
+                                    )}
+                                    {image.category === "Debutante" && (
+                                        <GiPartyPopper size={12} />
+                                    )}
+                                    {image.category === "Formatura" && (
+                                        <MdCelebration size={12} />
+                                    )}
+                                    {image.category === "Evento Especial" && (
+                                        <BiCalendarHeart size={12} />
+                                    )}
+                                    <span>{image.category}</span>
+                                </div>
 
-                        {/* Counter */}
-                        <div className="text-center mt-3 sm:mt-4 text-xs sm:text-sm text-rose-400">
-                            <span className="font-semibold">
-                                {currentSlide * imagesPerSlide + 1}-
-                                {Math.min(
-                                    (currentSlide + 1) * imagesPerSlide,
-                                    galleryImages.length,
+                                {/* Badge de destaque */}
+                                {image.id === 1 && (
+                                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-rose-500 text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium shadow-lg flex items-center gap-1 z-10">
+                                        <FaStar size={10} />
+                                        <span>Destaque</span>
+                                    </div>
                                 )}
+
+                                {/* Instrução para mobile */}
+                                {windowWidth < 640 &&
+                                    activeImageId !== image.id && (
+                                        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white text-[10px] px-3 py-1 rounded-full flex items-center gap-1 z-10">
+                                            <FaHandHoldingHeart size={10} />
+                                            <span>Toque para ver detalhes</span>
+                                        </div>
+                                    )}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Mensagem quando não há resultados */}
+                    {filteredImages.length === 0 && (
+                        <div className="text-center py-12">
+                            <p className="text-gray-500">
+                                Nenhum evento encontrado nesta categoria.
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Botão para ver todos os eventos */}
+                    {selectedCategory !== "Todos" && (
+                        <div className="text-center mt-8 sm:mt-10">
+                            <button
+                                onClick={() => {
+                                    setSelectedCategory("Todos");
+                                    setActiveImageId(null);
+                                }}
+                                className="px-6 sm:px-8 py-2 sm:py-3 bg-rose-500 text-white text-xs sm:text-sm rounded-full hover:bg-rose-600 transition-all duration-300 shadow-lg shadow-rose-200 inline-flex items-center gap-2 cursor-pointer"
+                            >
+                                <FaCamera size={14} />
+                                <span>Ver todos os eventos</span>
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Estatísticas rápidas */}
+                    <div className="mt-12 sm:mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+                        <div className="bg-white/50 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center border border-rose-100">
+                            <span className="text-xl sm:text-2xl font-bold text-rose-500">
+                                150+
                             </span>
-                            <span> de {galleryImages.length} eventos</span>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                                Casamentos
+                            </p>
+                        </div>
+                        <div className="bg-white/50 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center border border-rose-100">
+                            <span className="text-xl sm:text-2xl font-bold text-rose-500">
+                                80+
+                            </span>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                                15 Anos
+                            </p>
+                        </div>
+                        <div className="bg-white/50 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center border border-rose-100">
+                            <span className="text-xl sm:text-2xl font-bold text-rose-500">
+                                50+
+                            </span>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                                Formatura
+                            </p>
+                        </div>
+                        <div className="bg-white/50 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center border border-rose-100">
+                            <span className="text-xl sm:text-2xl font-bold text-rose-500">
+                                200+
+                            </span>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                                Eventos
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -926,8 +1003,8 @@ const App = () => {
                 className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white"
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-12 md:mb-16 lg:mb-20">
-                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 block flex items-center justify-center gap-1 sm:gap-2">
+                    <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-16 lg:mb-20">
+                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center justify-center gap-1 sm:gap-2">
                             <FaQuoteRight className="text-sm sm:text-base" />
                             <span>Depoimentos</span>
                             <FaQuoteRight className="text-sm sm:text-base" />
@@ -946,7 +1023,7 @@ const App = () => {
                             <FaQuoteRight className="text-2xl sm:text-3xl lg:text-4xl text-rose-200 absolute top-3 sm:top-4 right-3 sm:right-4 lg:right-8" />
                             <div className="relative">
                                 <div className="flex items-center mb-3 sm:mb-4 lg:mb-6">
-                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-rose-100 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-rose-100 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0">
                                         <span className="text-sm sm:text-base lg:text-2xl font-bold text-rose-500">
                                             FM
                                         </span>
@@ -980,7 +1057,7 @@ const App = () => {
                             <FaQuoteRight className="text-2xl sm:text-3xl lg:text-4xl text-rose-200 absolute top-3 sm:top-4 right-3 sm:right-4 lg:right-8" />
                             <div className="relative">
                                 <div className="flex items-center mb-3 sm:mb-4 lg:mb-6">
-                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-rose-100 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-rose-100 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0">
                                         <span className="text-sm sm:text-base lg:text-2xl font-bold text-rose-500">
                                             MC
                                         </span>
@@ -1020,7 +1097,7 @@ const App = () => {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-start">
                         <div>
-                            <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 block flex items-center gap-1 sm:gap-2">
+                            <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center gap-1 sm:gap-2">
                                 <FaHeart className="text-sm sm:text-base" />
                                 <span>Contato</span>
                             </span>
@@ -1047,7 +1124,7 @@ const App = () => {
                                         )
                                     }
                                 >
-                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-rose-100 transition-colors shadow-sm flex-shrink-0">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-rose-100 transition-colors shadow-sm shrink-0">
                                         <FaPhone className="text-lg sm:text-xl lg:text-2xl text-rose-500" />
                                     </div>
                                     <div className="ml-2 sm:ml-3 lg:ml-4">
@@ -1067,7 +1144,7 @@ const App = () => {
                                         )
                                     }
                                 >
-                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-rose-100 transition-colors shadow-sm flex-shrink-0">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-rose-100 transition-colors shadow-sm shrink-0">
                                         <FaEnvelope className="text-lg sm:text-xl lg:text-2xl text-rose-500" />
                                     </div>
                                     <div className="ml-2 sm:ml-3 lg:ml-4">
@@ -1080,7 +1157,7 @@ const App = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center group">
-                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-rose-100 transition-colors shadow-sm flex-shrink-0">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-rose-100 transition-colors shadow-sm shrink-0">
                                         <FaMapMarkerAlt className="text-lg sm:text-xl lg:text-2xl text-rose-500" />
                                     </div>
                                     <div className="ml-2 sm:ml-3 lg:ml-4">
