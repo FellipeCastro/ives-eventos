@@ -71,7 +71,6 @@ const App = () => {
             title: "Casamento Clássico",
             category: "Casamento",
             description: "Cerimônia elegante com decoração sofisticada",
-            ig: "https://www.instagram.com/p/DVZX4F-koLd/?img_index=19",
         },
         {
             id: 2,
@@ -79,7 +78,6 @@ const App = () => {
             title: "Casamento na Natureza",
             category: "Casamento",
             description: "Ambiente ao ar livre com detalhes românticos",
-            ig: "https://www.instagram.com/p/DKhvGuosN-6/?img_index=2",
         },
         {
             id: 3,
@@ -87,7 +85,6 @@ const App = () => {
             title: "Casamento Moderno",
             category: "Casamento",
             description: "Celebração contemporânea com estilo único",
-            ig: "https://www.instagram.com/p/C2as0KQvtjz/?img_index=1",
         },
         {
             id: 4,
@@ -95,7 +92,6 @@ const App = () => {
             title: "Festa de 15 Anos",
             category: "Debutante",
             description: "Celebração mágica com decoração encantadora",
-            ig: "https://www.instagram.com/p/DPfGhKjgBUI/?img_index=8",
         },
         {
             id: 5,
@@ -103,7 +99,6 @@ const App = () => {
             title: "15 Anos Iluminado",
             category: "Debutante",
             description: "Estrutura com iluminação especial",
-            ig: "https://www.instagram.com/p/DGZUDCjPAK6/?img_index=17",
         },
         {
             id: 6,
@@ -111,7 +106,6 @@ const App = () => {
             title: "Valsa dos Sonhos",
             category: "Debutante",
             description: "Momento especial da festa de debutante",
-            ig: "https://www.instagram.com/p/C4DYgXOgfsl/?img_index=1",
         },
         {
             id: 7,
@@ -119,7 +113,6 @@ const App = () => {
             title: "Aniversário 50 Anos",
             category: "Aniversário",
             description: "Comemoração elegante com buffet completo",
-            ig: "https://www.instagram.com/p/DM-zSSHst8b/?img_index=19",
         },
         {
             id: 8,
@@ -127,7 +120,6 @@ const App = () => {
             title: "Festa Infantil",
             category: "Aniversário",
             description: "Tema safari com muita diversão",
-            ig: "https://www.instagram.com/p/C7XWgWbPf1k/?img_index=6",
         },
         {
             id: 9,
@@ -135,7 +127,6 @@ const App = () => {
             title: "Evento Corporativo",
             category: "Corporativo",
             description: "Coffee break premium e estrutura profissional",
-            ig: "https://www.instagram.com/p/DSTUFQdgK7g/?img_index=5",
         },
         {
             id: 10,
@@ -143,11 +134,16 @@ const App = () => {
             title: "Confraternização",
             category: "Corporativo",
             description: "Celebração empresarial com organização impecável",
-            ig: "https://www.instagram.com/p/DRvRPCUgC_V/?img_index=3",
         },
     ];
 
-    const categories = ["Todos", "Casamento", "Debutante", "Corporativo", "Aniversário"];
+    const categories = [
+        "Todos",
+        "Casamento",
+        "Debutante",
+        "Corporativo",
+        "Aniversário",
+    ];
     const menuItems = [
         { id: "home", label: "Início" },
         { id: "services", label: "Serviços" },
@@ -929,7 +925,7 @@ const App = () => {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 window.open(
-                                                    image.ig,
+                                                    instagram,
                                                     "_blank",
                                                 );
                                             }}
@@ -1298,11 +1294,14 @@ const App = () => {
                                         <option value="Casamento">
                                             Casamento
                                         </option>
-                                        <option value="Festa de 15 Anos">
-                                            Festa de 15 Anos
+                                        <option value="Debutante">
+                                            Debutante
                                         </option>
-                                        <option value="Evento Corporativo">
-                                            Evento Corporativo
+                                        <option value="Corporativo">
+                                            Corporativo
+                                        </option>
+                                        <option value="Aniversário">
+                                            Aniversário
                                         </option>
                                         <option value="Outro">Outro</option>
                                     </select>
