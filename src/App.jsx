@@ -31,8 +31,8 @@ import { BiUser, BiCalendarHeart } from "react-icons/bi";
 import quinzeanos1 from "./assets/15anos-01.jpg";
 import quinzeanos2 from "./assets/15anos-02.jpg";
 import quinzeanos3 from "./assets/15anos-03.jpg";
-import anoversario1 from "./assets/aniversario-01.jpg"; 
-import anoversario2 from "./assets/aniversario-02.jpg"; 
+import anoversario1 from "./assets/aniversario-01.jpg";
+import anoversario2 from "./assets/aniversario-02.jpg";
 import casamento1 from "./assets/casamento-01.jpg";
 import casamento2 from "./assets/casamento-02.jpg";
 import casamento3 from "./assets/casamento-03.jpg";
@@ -71,7 +71,7 @@ const App = () => {
             title: "Casamento Clássico",
             category: "Casamento",
             description: "Cerimônia elegante com decoração sofisticada",
-            ig: "https://www.instagram.com/p/DVZX4F-koLd/?img_index=19"
+            ig: "https://www.instagram.com/p/DVZX4F-koLd/?img_index=19",
         },
         {
             id: 2,
@@ -117,7 +117,7 @@ const App = () => {
             id: 7,
             src: anoversario1,
             title: "Aniversário 50 Anos",
-            category: "Evento Especial",
+            category: "Aniversário",
             description: "Comemoração elegante com buffet completo",
             ig: "https://www.instagram.com/p/DM-zSSHst8b/?img_index=19",
         },
@@ -125,7 +125,7 @@ const App = () => {
             id: 8,
             src: anoversario2,
             title: "Festa Infantil",
-            category: "Evento Especial",
+            category: "Aniversário",
             description: "Tema safari com muita diversão",
             ig: "https://www.instagram.com/p/C7XWgWbPf1k/?img_index=6",
         },
@@ -147,7 +147,7 @@ const App = () => {
         },
     ];
 
-    const categories = ["Todos", "Casamento", "Debutante", "Corporativo"];
+    const categories = ["Todos", "Casamento", "Debutante", "Corporativo", "Aniversário"];
     const menuItems = [
         { id: "home", label: "Início" },
         { id: "services", label: "Serviços" },
@@ -905,8 +905,16 @@ const App = () => {
                                     />
                                 </div>
 
-                                {/* Overlay */}
-                                <div className="absolute inset-0 bg-linear-to-t from-rose-900/95 via-rose-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                {/* Overlay - Funciona com hover no desktop e clique no mobile */}
+                                <div
+                                    className={`absolute inset-0 bg-linear-to-t from-rose-900/95 via-rose-900/60 to-transparent transition-opacity duration-500 ${
+                                        windowWidth < 640
+                                            ? activeImageId === image.id
+                                                ? "opacity-100"
+                                                : "opacity-0 pointer-events-none"
+                                            : "opacity-0 group-hover:opacity-100"
+                                    }`}
+                                >
                                     <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 lg:p-6 text-white">
                                         <span className="text-[8px] sm:text-[10px] md:text-xs font-light text-rose-200 uppercase tracking-wider">
                                             {image.category}
@@ -933,7 +941,7 @@ const App = () => {
                                     </div>
                                 </div>
 
-                                {/* Tags */}
+                                {/* Category Tag - Sempre visível */}
                                 <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4 bg-white/90 backdrop-blur-sm px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] md:text-xs font-medium text-rose-600 shadow-lg flex items-center gap-0.5 sm:gap-1 z-10">
                                     {image.category === "Casamento" && (
                                         <MdEvent size={10} />
@@ -950,12 +958,22 @@ const App = () => {
                                     <span>{image.category}</span>
                                 </div>
 
+                                {/* Badge de destaque */}
                                 {image.id === 1 && (
                                     <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 bg-rose-500 text-white px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-0.5 sm:gap-1 z-10">
                                         <FaStar size={10} />
                                         <span>Destaque</span>
                                     </div>
                                 )}
+
+                                {/* Instrução para mobile - Aparece quando o overlay está fechado */}
+                                {windowWidth < 640 &&
+                                    activeImageId !== image.id && (
+                                        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white text-[10px] px-3 py-1 rounded-full flex items-center gap-1 z-10 pointer-events-none">
+                                            <FaHandHoldingHeart size={10} />
+                                            <span>Toque para ver detalhes</span>
+                                        </div>
+                                    )}
                             </div>
                         ))}
                     </div>
@@ -973,7 +991,7 @@ const App = () => {
                             onClick={() => window.open(instagram, "_blank")}
                             className="px-5 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-rose-500 text-white text-xs sm:text-sm rounded-full hover:bg-rose-600 transition-all duration-300 shadow-lg shadow-rose-200 inline-flex items-center gap-2 cursor-pointer"
                         >
-                            <FaInstagram size={14} />
+                            <FaCamera size={14} />
                             <span>Ver todos os eventos</span>
                         </button>
                     </div>
