@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
     FaStar,
     FaPhone,
@@ -57,30 +56,6 @@ const App = () => {
 
     const serviceCarouselRef = useRef(null);
     const testimonialCarouselRef = useRef(null);
-
-    // Refs para animações
-    const heroRef = useRef(null);
-    const servicesRef = useRef(null);
-    const carouselRef = useRef(null);
-    const galleryRef = useRef(null);
-    const testimonialsRef = useRef(null);
-    const contactRef = useRef(null);
-
-    const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
-    const isServicesInView = useInView(servicesRef, {
-        once: true,
-        amount: 0.2,
-    });
-    const isCarouselInView = useInView(carouselRef, {
-        once: true,
-        amount: 0.2,
-    });
-    const isGalleryInView = useInView(galleryRef, { once: true, amount: 0.1 });
-    const isTestimonialsInView = useInView(testimonialsRef, {
-        once: true,
-        amount: 0.2,
-    });
-    const isContactInView = useInView(contactRef, { once: true, amount: 0.2 });
 
     const phone = "5511951339598";
     const email = "iveseventosassessoria448@gmail.com";
@@ -202,7 +177,7 @@ const App = () => {
                 <MdOutlineDesignServices className="text-2xl sm:text-3xl text-rose-500" />
             ),
             title: "Decoração dos Sonhos",
-            desc: "Realizamos seu projeto para que tudo fique do jeito que sempre sonhou, Tornando esse momento mais que especial.",
+            desc: "Realizamos seu projeto para que tudo fique do jeuto que sempre sonhou, Tornando esse momento mais que especial.",
             number: "03",
         },
     ];
@@ -447,49 +422,6 @@ const App = () => {
         return () => observer.disconnect();
     }, []);
 
-    // Variants de animação
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 60 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
-        },
-    };
-
-    const fadeInLeft = {
-        hidden: { opacity: 0, x: -50 },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
-        },
-    };
-
-    const fadeInRight = {
-        hidden: { opacity: 0, x: 50 },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
-        },
-    };
-
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3,
-            },
-        },
-    };
-
-    const scaleOnHover = {
-        whileHover: { scale: 1.05, transition: { duration: 0.3 } },
-    };
-
     return (
         <div className="min-h-screen bg-white font-sans antialiased overflow-x-hidden">
             <script type="application/ld+json">
@@ -504,17 +436,10 @@ const App = () => {
             </script>
 
             {/* NAVBAR */}
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-rose-100"
-            >
+            <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-rose-100">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16 sm:h-20">
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                        <div
                             className="flex items-center cursor-pointer"
                             onClick={() => scrollToSection("home")}
                         >
@@ -525,14 +450,12 @@ const App = () => {
                             <span className="hidden xs:inline ml-1 sm:ml-2 text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 font-light uppercase">
                                 Eventos
                             </span>
-                        </motion.div>
+                        </div>
 
                         <div className="hidden md:flex space-x-6 lg:space-x-12">
                             {menuItems.map((item) => (
-                                <motion.button
+                                <button
                                     key={item.id}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
                                     onClick={() => scrollToSection(item.id)}
                                     className={`text-xs lg:text-sm tracking-wide transition-all duration-300 whitespace-nowrap cursor-pointer ${
                                         activeSection === item.id
@@ -541,14 +464,12 @@ const App = () => {
                                     }`}
                                 >
                                     {item.label}
-                                </motion.button>
+                                </button>
                             ))}
                         </div>
 
                         <div className="hidden md:block">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
                                 onClick={() =>
                                     openWhatsApp(
                                         "Olá, gostaria de saber mais sobre os serviços da Ives Eventos.",
@@ -558,7 +479,7 @@ const App = () => {
                             >
                                 <FaPhone className="text-xs lg:text-sm" />
                                 <span>Entre em contato</span>
-                            </motion.button>
+                            </button>
                         </div>
 
                         <button
@@ -573,136 +494,73 @@ const App = () => {
                         </button>
                     </div>
 
-                    <AnimatePresence>
-                        {isMenuOpen && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="md:hidden py-4 border-t border-rose-100 bg-white/95 backdrop-blur-md"
-                            >
-                                {menuItems.map((item) => (
-                                    <motion.button
-                                        key={item.id}
-                                        initial={{ x: -20, opacity: 0 }}
-                                        animate={{ x: 0, opacity: 1 }}
-                                        transition={{ delay: 0.1 * item.id }}
-                                        onClick={() => scrollToSection(item.id)}
-                                        className="block w-full text-left py-3 px-2 text-gray-600 hover:text-rose-600 hover:bg-rose-50 transition-colors text-sm tracking-wide rounded-lg cursor-pointer"
-                                    >
-                                        {item.label}
-                                    </motion.button>
-                                ))}
-                                <div className="pt-4 mt-2 border-t border-rose-100">
-                                    <motion.button
-                                        initial={{ x: -20, opacity: 0 }}
-                                        animate={{ x: 0, opacity: 1 }}
-                                        transition={{ delay: 0.4 }}
-                                        onClick={() =>
-                                            openWhatsApp(
-                                                "Olá, gostaria de saber mais sobre os serviços da Ives Eventos.",
-                                            )
-                                        }
-                                        className="w-full px-6 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 flex items-center justify-center gap-2 text-sm cursor-pointer"
-                                    >
-                                        <FaPhone className="text-sm" />
-                                        Entre em contato
-                                    </motion.button>
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    {isMenuOpen && (
+                        <div className="md:hidden py-4 border-t border-rose-100 animate-fadeIn bg-white/95 backdrop-blur-md">
+                            {menuItems.map((item) => (
+                                <button
+                                    key={item.id}
+                                    onClick={() => scrollToSection(item.id)}
+                                    className="block w-full text-left py-3 px-2 text-gray-600 hover:text-rose-600 hover:bg-rose-50 transition-colors text-sm tracking-wide rounded-lg cursor-pointer"
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
+                            <div className="pt-4 mt-2 border-t border-rose-100">
+                                <button
+                                    onClick={() =>
+                                        openWhatsApp(
+                                            "Olá, gostaria de saber mais sobre os serviços da Ives Eventos.",
+                                        )
+                                    }
+                                    className="w-full px-6 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 flex items-center justify-center gap-2 text-sm cursor-pointer"
+                                >
+                                    <FaPhone className="text-sm" />
+                                    Entre em contato
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </motion.nav>
+            </nav>
 
             {/* HERO */}
             <section
-                ref={heroRef}
                 id="home"
                 className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-rose-50 via-white to-rose-50 pt-16 sm:pt-20"
             >
                 <div className="absolute inset-0">
-                    <motion.div
-                        animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.2, 0.3, 0.2],
-                        }}
-                        transition={{
-                            duration: 8,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
-                        className="absolute top-10 sm:top-20 left-10 sm:left-20 w-32 sm:w-64 h-32 sm:h-64 bg-rose-200 rounded-full mix-blend-multiply filter blur-2xl sm:blur-3xl opacity-20"
-                    />
-                    <motion.div
-                        animate={{
-                            scale: [1, 1.3, 1],
-                            opacity: [0.2, 0.35, 0.2],
-                        }}
-                        transition={{
-                            duration: 10,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: 1,
-                        }}
-                        className="absolute bottom-10 sm:bottom-20 right-10 sm:right-20 w-32 sm:w-64 h-32 sm:h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-2xl sm:blur-3xl opacity-20"
-                    />
+                    <div className="absolute top-10 sm:top-20 left-10 sm:left-20 w-32 sm:w-64 h-32 sm:h-64 bg-rose-200 rounded-full mix-blend-multiply filter blur-2xl sm:blur-3xl opacity-20 animate-pulse" />
+                    <div className="absolute bottom-10 sm:bottom-20 right-10 sm:right-20 w-32 sm:w-64 h-32 sm:h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-2xl sm:blur-3xl opacity-20 animate-pulse delay-1000" />
                 </div>
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <motion.div
-                        variants={fadeInUp}
-                        initial="hidden"
-                        animate={isHeroInView ? "visible" : "hidden"}
-                        className="max-w-4xl mx-auto text-center"
-                    >
-                        <motion.span
-                            variants={fadeInUp}
-                            className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-4 sm:mb-6 flex items-center justify-center gap-1 sm:gap-2 flex-wrap"
-                        >
+                    <div className="max-w-4xl mx-auto text-center">
+                        <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-4 sm:mb-6 flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
                             <FaHandHoldingHeart className="text-rose-400 text-sm sm:text-base" />
                             <span>Ives Eventos</span>
                             <FaHandHoldingHeart className="text-rose-400 text-sm sm:text-base" />
-                        </motion.span>
-                        <motion.h1
-                            variants={fadeInUp}
-                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-gray-800 mb-4 sm:mb-8 leading-tight sm:leading-[1.1] px-2"
-                        >
+                        </span>
+                        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-gray-800 mb-4 sm:mb-8 leading-tight sm:leading-[1.1] px-2">
                             Onde sonhos se
                             <span className="block font-bold text-rose-500 mt-2 sm:mt-0">
                                 tornam realidade
                             </span>
-                        </motion.h1>
-                        <motion.p
-                            variants={fadeInUp}
-                            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-4"
-                        >
+                        </h1>
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-4">
                             A Ives Eventos transforma momentos especiais em
                             memórias inesquecíveis. Com mais de uma década de
                             experiência, oferece dedicação e excelência em cada
                             detalhe.
-                        </motion.p>
-                        <motion.div
-                            variants={staggerContainer}
-                            initial="hidden"
-                            animate={isHeroInView ? "visible" : "hidden"}
-                            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
-                        >
-                            <motion.button
-                                variants={fadeInUp}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                            <button
                                 onClick={() => scrollToSection("services")}
                                 className="px-6 sm:px-8 py-3 sm:py-4 bg-rose-500 text-white text-xs sm:text-sm tracking-wide hover:bg-rose-600 transition-all duration-300 rounded-full shadow-lg shadow-rose-200 hover:shadow-xl hover:shadow-rose-300 transform hover:-translate-y-1 flex items-center justify-center gap-2 w-full sm:w-auto cursor-pointer"
                             >
                                 <MdEvent className="text-sm sm:text-base" />
                                 <span>Conheça os serviços</span>
-                            </motion.button>
-                            <motion.button
-                                variants={fadeInUp}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            </button>
+                            <button
                                 onClick={() =>
                                     openWhatsApp(
                                         "Olá, gostaria de solicitar um orçamento para meu evento.",
@@ -712,42 +570,28 @@ const App = () => {
                             >
                                 <FaRegGem className="text-sm sm:text-base" />
                                 <span>Solicite um orçamento</span>
-                            </motion.button>
-                        </motion.div>
-                    </motion.div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
-                    className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
-                >
+                <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2">
                     <div className="w-5 sm:w-6 h-8 sm:h-10 border-2 border-rose-200 rounded-full flex justify-center">
                         <FaChevronDown
                             className="text-rose-400 animate-bounce mt-2"
                             size={10}
                         />
                     </div>
-                </motion.div>
+                </div>
             </section>
 
             {/* SERVICES CARDS */}
             <section
-                ref={servicesRef}
                 id="services"
                 className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white"
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        variants={fadeInUp}
-                        initial="hidden"
-                        animate={isServicesInView ? "visible" : "hidden"}
-                        className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 md:mb-16 lg:mb-20"
-                    >
+                    <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 md:mb-16 lg:mb-20">
                         <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center justify-center gap-1 sm:gap-2">
                             <BiUser className="text-sm sm:text-base" />
                             <span>Serviços</span>
@@ -764,22 +608,12 @@ const App = () => {
                             em cada detalhe para que seu evento seja exatamente
                             como você sonhou.
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate={isServicesInView ? "visible" : "hidden"}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
-                    >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                         {serviceCards.map((service, idx) => (
-                            <motion.div
+                            <div
                                 key={idx}
-                                variants={fadeInUp}
-                                whileHover={{
-                                    y: -10,
-                                    transition: { duration: 0.3 },
-                                }}
                                 className="group relative bg-linear-to-br from-rose-50 to-white p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-rose-100"
                             >
                                 <div className="w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 bg-rose-100 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 lg:mb-8 group-hover:bg-rose-200 transition-colors">
@@ -794,17 +628,14 @@ const App = () => {
                                 <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 text-2xl sm:text-3xl lg:text-4xl text-rose-100 group-hover:text-rose-200">
                                     {service.number}
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             </section>
 
             {/* SERVICE CAROUSEL - MOBILE FIRST */}
-            <section
-                ref={carouselRef}
-                className="py-16 sm:py-20 md:py-24 bg-linear-to-r from-rose-400 to-rose-500 relative overflow-hidden"
-            >
+            <section className="py-16 sm:py-20 md:py-24 bg-linear-to-r from-rose-400 to-rose-500 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-0 left-0 w-24 sm:w-32 h-24 sm:h-32 border-4 border-white rounded-full -translate-x-1/2 -translate-y-1/2" />
                     <div className="absolute bottom-0 right-0 w-32 sm:w-48 h-32 sm:h-48 border-4 border-white rounded-full translate-x-1/2 translate-y-1/2" />
@@ -812,12 +643,7 @@ const App = () => {
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="max-w-7xl mx-auto">
-                        <motion.div
-                            variants={fadeInUp}
-                            initial="hidden"
-                            animate={isCarouselInView ? "visible" : "hidden"}
-                            className="text-center mb-8 sm:mb-10"
-                        >
+                        <div className="text-center mb-8 sm:mb-10">
                             <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-white/80 uppercase mb-3 sm:mb-4 block">
                                 Serviços Especiais
                             </span>
@@ -825,20 +651,18 @@ const App = () => {
                                 Escolha o{" "}
                                 <span className="font-bold">seu evento</span>
                             </h2>
-                        </motion.div>
+                        </div>
 
                         {/* Carrossel Container */}
                         <div className="relative">
                             {/* Botão Anterior - Desktop */}
                             {windowWidth >= 1024 && (
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
+                                <button
                                     onClick={prevServiceSlide}
                                     className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white w-10 h-10 rounded-full hover:bg-white/30 transition-all duration-300 flex items-center justify-center z-10 cursor-pointer"
                                 >
                                     <FaChevronLeft size={20} />
-                                </motion.button>
+                                </button>
                             )}
 
                             {/* Carrossel com arrasto */}
@@ -880,24 +704,8 @@ const App = () => {
                                                             itemsPerView,
                                                     )
                                                     .map((service, idx) => (
-                                                        <motion.div
+                                                        <div
                                                             key={idx}
-                                                            initial={{
-                                                                opacity: 0,
-                                                                y: 30,
-                                                            }}
-                                                            animate={{
-                                                                opacity: 1,
-                                                                y: 0,
-                                                            }}
-                                                            transition={{
-                                                                delay:
-                                                                    idx * 0.1,
-                                                                duration: 0.5,
-                                                            }}
-                                                            whileHover={{
-                                                                y: -5,
-                                                            }}
                                                             className="w-full"
                                                         >
                                                             <div className="bg-white/10 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/20 transition-all duration-300 h-full">
@@ -936,13 +744,7 @@ const App = () => {
                                                                             ),
                                                                         )}
                                                                     </ul>
-                                                                    <motion.button
-                                                                        whileHover={{
-                                                                            scale: 1.05,
-                                                                        }}
-                                                                        whileTap={{
-                                                                            scale: 0.95,
-                                                                        }}
+                                                                    <button
                                                                         onClick={() =>
                                                                             openWhatsApp(
                                                                                 service.whatsapp,
@@ -952,10 +754,10 @@ const App = () => {
                                                                     >
                                                                         Quero
                                                                         este
-                                                                    </motion.button>
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                                                        </motion.div>
+                                                        </div>
                                                     ))}
                                             </div>
                                         </div>
@@ -965,14 +767,12 @@ const App = () => {
 
                             {/* Botão Próximo - Desktop */}
                             {windowWidth >= 1024 && (
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
+                                <button
                                     onClick={nextServiceSlide}
                                     className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white w-10 h-10 rounded-full hover:bg-white/30 transition-all duration-300 flex items-center justify-center z-10 cursor-pointer"
                                 >
                                     <FaChevronRight size={20} />
-                                </motion.button>
+                                </button>
                             )}
                         </div>
 
@@ -980,9 +780,8 @@ const App = () => {
                         <div className="flex justify-center gap-2 mt-6 sm:mt-8">
                             {Array.from({ length: totalServiceSlides }).map(
                                 (_, index) => (
-                                    <motion.button
+                                    <button
                                         key={index}
-                                        whileHover={{ scale: 1.2 }}
                                         onClick={() =>
                                             setCurrentServiceIndex(index)
                                         }
@@ -999,40 +798,27 @@ const App = () => {
                         {/* Botões Mobile - Navegação por setas abaixo */}
                         {windowWidth < 1024 && (
                             <div className="flex justify-center gap-4 mt-6 sm:mt-8">
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
+                                <button
                                     onClick={prevServiceSlide}
                                     className="bg-white/20 backdrop-blur-sm text-white w-10 h-10 rounded-full hover:bg-white/30 transition-all duration-300 flex items-center justify-center cursor-pointer"
                                 >
                                     <FaChevronLeft size={18} />
-                                </motion.button>
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
+                                </button>
+                                <button
                                     onClick={nextServiceSlide}
                                     className="bg-white/20 backdrop-blur-sm text-white w-10 h-10 rounded-full hover:bg-white/30 transition-all duration-300 flex items-center justify-center cursor-pointer"
                                 >
                                     <FaChevronRight size={18} />
-                                </motion.button>
+                                </button>
                             </div>
                         )}
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={
-                                isCarouselInView ? { opacity: 1, y: 0 } : {}
-                            }
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                            className="text-center mt-8 sm:mt-10"
-                        >
+                        <div className="text-center mt-8 sm:mt-10">
                             <p className="text-white/90 text-xs sm:text-sm md:text-base mb-3 sm:mb-4">
                                 Todos os pacotes incluem assessoria completa e
                                 podem ser personalizados
                             </p>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
                                 onClick={() =>
                                     openWhatsApp(
                                         "Olá, gostaria de solicitar um *orçamento personalizado* para meu evento.",
@@ -1041,25 +827,19 @@ const App = () => {
                                 className="px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-rose-500 text-xs sm:text-sm tracking-wide hover:bg-rose-50 transition-all duration-300 rounded-full shadow-lg font-semibold cursor-pointer"
                             >
                                 Solicitar orçamento personalizado
-                            </motion.button>
-                        </motion.div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* GALLERY */}
             <section
-                ref={galleryRef}
                 id="gallery"
                 className="py-16 sm:py-20 md:py-24 lg:py-32 bg-rose-50/30"
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        variants={fadeInUp}
-                        initial="hidden"
-                        animate={isGalleryInView ? "visible" : "hidden"}
-                        className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-12"
-                    >
+                    <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-12">
                         <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center justify-center gap-1 sm:gap-2">
                             <FaCamera className="text-sm sm:text-base" />
                             <span>Galeria</span>
@@ -1074,20 +854,13 @@ const App = () => {
                         <p className="text-sm sm:text-base text-gray-600 leading-relaxed px-4">
                             Explore nossos eventos organizados por categoria
                         </p>
-                    </motion.div>
+                    </div>
 
                     {/* Filters */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isGalleryInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                        className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 lg:mb-12"
-                    >
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 lg:mb-12">
                         {categories.map((categoria) => (
-                            <motion.button
+                            <button
                                 key={categoria}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
                                 onClick={() => {
                                     setSelectedCategory(categoria);
                                     setActiveImageId(null);
@@ -1099,23 +872,16 @@ const App = () => {
                                 }`}
                             >
                                 {categoria}
-                            </motion.button>
+                            </button>
                         ))}
-                    </motion.div>
+                    </div>
 
                     {/* Images Grid */}
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate={isGalleryInView ? "visible" : "hidden"}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto"
-                    >
-                        {filteredImages.map((image, idx) => (
-                            <motion.div
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
+                        {filteredImages.map((image) => (
+                            <div
                                 key={image.id}
-                                variants={fadeInUp}
-                                whileHover={{ y: -10 }}
-                                className="gallery-item group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg transition-all duration-500 hover:shadow-2xl cursor-pointer"
+                                className="gallery-item group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 cursor-pointer"
                                 onClick={() => {
                                     if (windowWidth < 640) {
                                         setActiveImageId(
@@ -1135,7 +901,7 @@ const App = () => {
                                     />
                                 </div>
 
-                                {/* Overlay */}
+                                {/* Overlay - Funciona com hover no desktop e clique no mobile */}
                                 <div
                                     className={`absolute inset-0 bg-linear-to-t from-rose-900/95 via-rose-900/60 to-transparent transition-opacity duration-500 ${
                                         windowWidth < 640
@@ -1155,9 +921,7 @@ const App = () => {
                                         <p className="text-[10px] sm:text-xs text-rose-100 mb-2 sm:mb-3">
                                             {image.description}
                                         </p>
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
+                                        <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 window.open(
@@ -1169,11 +933,11 @@ const App = () => {
                                         >
                                             <FaInstagram size={10} />
                                             <span>Mais informações</span>
-                                        </motion.button>
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Category Tag */}
+                                {/* Category Tag - Sempre visível */}
                                 <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4 bg-white/90 backdrop-blur-sm px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] md:text-xs font-medium text-rose-600 shadow-lg flex items-center gap-0.5 sm:gap-1 z-10">
                                     {image.category === "Casamento" && (
                                         <MdEvent size={10} />
@@ -1198,7 +962,7 @@ const App = () => {
                                     </div>
                                 )}
 
-                                {/* Instrução para mobile */}
+                                {/* Instrução para mobile - Aparece quando o overlay está fechado */}
                                 {windowWidth < 640 &&
                                     activeImageId !== image.id && (
                                         <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white text-[10px] px-3 py-1 rounded-full flex items-center gap-1 z-10 pointer-events-none">
@@ -1206,9 +970,9 @@ const App = () => {
                                             <span>Toque para ver detalhes</span>
                                         </div>
                                     )}
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
 
                     {filteredImages.length === 0 && (
                         <div className="text-center py-12">
@@ -1218,38 +982,25 @@ const App = () => {
                         </div>
                     )}
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isGalleryInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ delay: 0.6, duration: 0.5 }}
-                        className="text-center mt-8 sm:mt-10"
-                    >
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                    <div className="text-center mt-8 sm:mt-10">
+                        <button
                             onClick={() => window.open(instagram, "_blank")}
                             className="px-5 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-rose-500 text-white text-xs sm:text-sm rounded-full hover:bg-rose-600 transition-all duration-300 shadow-lg shadow-rose-200 inline-flex items-center gap-2 cursor-pointer"
                         >
                             <FaCamera size={14} />
                             <span>Ver todos os eventos</span>
-                        </motion.button>
-                    </motion.div>
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            {/* TESTIMONIALS CAROUSEL */}
+            {/* TESTIMONIALS CAROUSEL - MOBILE FIRST */}
             <section
-                ref={testimonialsRef}
                 id="testimonials"
                 className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white"
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        variants={fadeInUp}
-                        initial="hidden"
-                        animate={isTestimonialsInView ? "visible" : "hidden"}
-                        className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-16 lg:mb-20"
-                    >
+                    <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-16 lg:mb-20">
                         <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center justify-center gap-1 sm:gap-2">
                             <FaQuoteRight className="text-sm sm:text-base" />
                             <span>Depoimentos</span>
@@ -1261,19 +1012,17 @@ const App = () => {
                                 nossos clientes
                             </span>
                         </h2>
-                    </motion.div>
+                    </div>
 
                     <div className="max-w-7xl mx-auto relative">
                         {/* Botão Anterior - Desktop */}
                         {windowWidth >= 1024 && (
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                            <button
                                 onClick={prevTestimonialSlide}
                                 className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-rose-100 text-rose-500 w-10 h-10 rounded-full hover:bg-rose-200 transition-all duration-300 flex items-center justify-center z-10 cursor-pointer shadow-md"
                             >
                                 <FaChevronLeft size={20} />
-                            </motion.button>
+                            </button>
                         )}
 
                         {/* Carrossel com arrasto */}
@@ -1313,21 +1062,8 @@ const App = () => {
                                                         itemsPerView,
                                                 )
                                                 .map((testimonial, idx) => (
-                                                    <motion.div
+                                                    <div
                                                         key={idx}
-                                                        initial={{
-                                                            opacity: 0,
-                                                            y: 30,
-                                                        }}
-                                                        animate={{
-                                                            opacity: 1,
-                                                            y: 0,
-                                                        }}
-                                                        transition={{
-                                                            delay: idx * 0.1,
-                                                            duration: 0.5,
-                                                        }}
-                                                        whileHover={{ y: -5 }}
                                                         className="w-full"
                                                     >
                                                         <div className="bg-rose-50/50 p-4 sm:p-5 md:p-6 lg:p-8 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-lg relative border border-rose-100 hover:shadow-xl transition-all duration-300 h-full">
@@ -1389,7 +1125,7 @@ const App = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </motion.div>
+                                                    </div>
                                                 ))}
                                         </div>
                                     </div>
@@ -1399,14 +1135,12 @@ const App = () => {
 
                         {/* Botão Próximo - Desktop */}
                         {windowWidth >= 1024 && (
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                            <button
                                 onClick={nextTestimonialSlide}
                                 className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-rose-100 text-rose-500 w-10 h-10 rounded-full hover:bg-rose-200 transition-all duration-300 flex items-center justify-center z-10 cursor-pointer shadow-md"
                             >
                                 <FaChevronRight size={20} />
-                            </motion.button>
+                            </button>
                         )}
                     </div>
 
@@ -1414,9 +1148,8 @@ const App = () => {
                     <div className="flex justify-center gap-2 mt-6 sm:mt-8">
                         {Array.from({ length: totalTestimonialSlides }).map(
                             (_, index) => (
-                                <motion.button
+                                <button
                                     key={index}
-                                    whileHover={{ scale: 1.2 }}
                                     onClick={() =>
                                         setCurrentTestimonialIndex(index)
                                     }
@@ -1433,22 +1166,18 @@ const App = () => {
                     {/* Botões Mobile - Navegação por setas abaixo */}
                     {windowWidth < 1024 && (
                         <div className="flex justify-center gap-4 mt-6 sm:mt-8">
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                            <button
                                 onClick={prevTestimonialSlide}
                                 className="bg-rose-100 text-rose-500 w-10 h-10 rounded-full hover:bg-rose-200 transition-all duration-300 flex items-center justify-center cursor-pointer shadow-md"
                             >
                                 <FaChevronLeft size={18} />
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                            </button>
+                            <button
                                 onClick={nextTestimonialSlide}
                                 className="bg-rose-100 text-rose-500 w-10 h-10 rounded-full hover:bg-rose-200 transition-all duration-300 flex items-center justify-center cursor-pointer shadow-md"
                             >
                                 <FaChevronRight size={18} />
-                            </motion.button>
+                            </button>
                         </div>
                     )}
                 </div>
@@ -1456,17 +1185,12 @@ const App = () => {
 
             {/* CONTACT */}
             <section
-                ref={contactRef}
                 id="contact"
                 className="py-16 sm:py-20 md:py-24 lg:py-32 bg-rose-50/30"
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-start">
-                        <motion.div
-                            variants={fadeInLeft}
-                            initial="hidden"
-                            animate={isContactInView ? "visible" : "hidden"}
-                        >
+                        <div>
                             <span className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-rose-400 uppercase mb-3 sm:mb-4 flex items-center gap-1 sm:gap-2">
                                 <FaHeart className="text-sm sm:text-base" />
                                 <span>Contato</span>
@@ -1520,19 +1244,8 @@ const App = () => {
                                         action: null,
                                     },
                                 ].map((item, idx) => (
-                                    <motion.div
+                                    <div
                                         key={idx}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={
-                                            isContactInView
-                                                ? { opacity: 1, x: 0 }
-                                                : {}
-                                        }
-                                        transition={{
-                                            delay: 0.2 + idx * 0.1,
-                                            duration: 0.5,
-                                        }}
-                                        whileHover={{ x: 5 }}
                                         className={`flex items-center group ${item.action ? "cursor-pointer" : ""}`}
                                         onClick={item.action || undefined}
                                     >
@@ -1547,17 +1260,12 @@ const App = () => {
                                                 {item.value}
                                             </p>
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 ))}
                             </div>
-                        </motion.div>
+                        </div>
 
-                        <motion.div
-                            variants={fadeInRight}
-                            initial="hidden"
-                            animate={isContactInView ? "visible" : "hidden"}
-                            className="bg-white p-4 sm:p-6 lg:p-8 xl:p-12 rounded-2xl sm:rounded-3xl shadow-xl border border-rose-100"
-                        >
+                        <div className="bg-white p-4 sm:p-6 lg:p-8 xl:p-12 rounded-2xl sm:rounded-3xl shadow-xl border border-rose-100">
                             <form
                                 onSubmit={handleFormSubmit}
                                 className="space-y-3 sm:space-y-4 lg:space-y-6"
@@ -1622,17 +1330,15 @@ const App = () => {
                                         placeholder="Conte um pouco sobre seu evento..."
                                     />
                                 </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                <button
                                     type="submit"
                                     className="w-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-rose-500 text-white text-xs sm:text-sm tracking-wide hover:bg-rose-600 transition-all duration-300 rounded-lg sm:rounded-xl shadow-lg shadow-rose-200 hover:shadow-xl hover:shadow-rose-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
                                 >
                                     <MdMessage className="text-sm sm:text-base" />
                                     <span>Enviar mensagem</span>
-                                </motion.button>
+                                </button>
                             </form>
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1641,12 +1347,7 @@ const App = () => {
             <footer className="bg-linear-to-r from-rose-500 to-rose-600 text-white py-8 sm:py-10 lg:py-12 xl:py-16">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 lg:mb-12">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="mb-4 sm:mb-0 text-center sm:text-left"
-                        >
+                        <div className="mb-4 sm:mb-0 text-center sm:text-left">
                             <div className="flex items-center justify-center sm:justify-start">
                                 <FaHeart className="text-xl sm:text-2xl lg:text-3xl mr-1 sm:mr-2" />
                                 <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
@@ -1660,13 +1361,8 @@ const App = () => {
                                 Realizando sonhos com excelência e carinho desde
                                 2015.
                             </p>
-                        </motion.div>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                            className="flex space-x-2 sm:space-x-3 lg:space-x-4"
-                        >
+                        </div>
+                        <div className="flex space-x-2 sm:space-x-3 lg:space-x-4">
                             {[
                                 {
                                     href: instagram,
@@ -1688,10 +1384,8 @@ const App = () => {
                                         ),
                                 },
                             ].map((social, idx) => (
-                                <motion.a
+                                <a
                                     key={idx}
-                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                    whileTap={{ scale: 0.9 }}
                                     href={social.href}
                                     target={
                                         social.href !== "#"
@@ -1716,20 +1410,15 @@ const App = () => {
                                                   : 20
                                         }
                                     />
-                                </motion.a>
+                                </a>
                             ))}
-                        </motion.div>
+                        </div>
                     </div>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.5 }}
-                        className="border-t border-white/20 pt-4 sm:pt-6 lg:pt-8 text-center text-white/80 text-[10px] sm:text-xs"
-                    >
+                    <div className="border-t border-white/20 pt-4 sm:pt-6 lg:pt-8 text-center text-white/80 text-[10px] sm:text-xs">
                         <p>
                             © 2026 Ives Eventos. Todos os direitos reservados.
                         </p>
-                    </motion.div>
+                    </div>
                 </div>
             </footer>
         </div>
